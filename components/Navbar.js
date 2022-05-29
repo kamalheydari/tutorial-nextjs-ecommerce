@@ -87,7 +87,7 @@ export default function Navbar() {
         <ul className='navbar-nav p-1'>
           <li className='nav-item'>
             <Link href='/cart'>
-              <a className={"nav-link" + isActive("/cart")}>
+              <a className={"nav-link position-relative" + isActive("/cart")}>
                 <i className='fas fa-shopping-cart' aria-hidden='true'>
                   <span
                     className='position-absolute'
@@ -95,12 +95,14 @@ export default function Navbar() {
                       padding: "3px 6px",
                       background: "#ed143dc2",
                       borderRadius: "50%",
-                      top: "-10px",
+                      top: "-5px",
                       right: "-10px",
                       color: "white",
                       fontSize: "14px",
                     }}
-                  ></span>
+                  >
+                    {cart.length}
+                  </span>
                 </i>{" "}
                 Cart
               </a>

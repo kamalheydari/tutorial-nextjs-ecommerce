@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useContext, useState } from "react";
+import { addToCart } from "../../store/Actions";
 import { DataContext } from "../../store/GlobalState";
 import { getData } from "../../utils/fetchData";
 
@@ -7,8 +8,8 @@ export default function DetailProduct(props) {
   const [product] = useState(props.product);
   const [tab, setTab] = useState(0);
 
-  //   const { state, dispatch } = useContext(DataContext);
-  //   const { cart } = state;
+    const { state, dispatch } = useContext(DataContext);
+    const { cart } = state;
 
   const isActive = (index) => {
     if (tab === index) return " active";
@@ -63,7 +64,7 @@ export default function DetailProduct(props) {
         <button
           type='button'
           className='btn btn-dark d-block my-3 px-5'
-          //   onClick={() => dispatch(addToCart(product, cart))}
+            onClick={() => dispatch(addToCart(product, cart))}
         >
           Buy
         </button>

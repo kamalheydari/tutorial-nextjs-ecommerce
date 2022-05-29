@@ -7,7 +7,7 @@ export default function Home(props) {
   const [products, setProducts] = useState(props.products);
 
   return (
-    <div className="products">
+    <div className='products'>
       <Head>
         <title>Home Page</title>
       </Head>
