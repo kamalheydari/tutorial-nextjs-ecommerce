@@ -5,7 +5,13 @@ import reducers from "./Reducers";
 export const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
-  const initialState = { notify: {}, auth: {}, cart: [], modal: {} };
+  const initialState = {
+    notify: {},
+    auth: {},
+    cart: [],
+    modal: {},
+    orders: [],
+  };
   const [state, dispatch] = useReducer(reducers, initialState);
   const { cart, auth } = state;
 

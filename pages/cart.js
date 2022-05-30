@@ -8,11 +8,13 @@ import CartItem from "../components/CartItem";
 
 export default function Cart() {
   const { state, dispatch } = useContext(DataContext);
-  const { cart, auth } = state;
+  const { cart, auth, orders } = state;
 
   const [total, setTotal] = useState(0);
   const [address, setAddress] = useState("");
   const [mobile, setMobile] = useState("");
+
+  const router = useRouter();
 
   useEffect(() => {
     const getTotal = () => {
@@ -82,22 +84,22 @@ export default function Cart() {
 
     dispatch({ type: "NOTIFY", payload: { loading: true } });
 
-    // postData("order", { address, mobile, cart, total }, auth.token).then(
-    //   (res) => {
-    //     if (res.err)
-    //       return dispatch({ type: "NOTIFY", payload: { error: res.err } });
+    postData("order", { address, mobile, cart, total }, auth.token).then(
+      (res) => {
+        if (res.err)
+          return dispatch({ type: "NOTIFY", payload: { error: res.err } });
 
-    //     dispatch({ type: "ADD_CART", payload: [] });
+        dispatch({ type: "ADD_CART", payload: [] });
 
-    //     const newOrder = {
-    //       ...res.newOrder,
-    //       user: auth.user,
-    //     };
-    //     dispatch({ type: "ADD_ORDERS", payload: [...orders, newOrder] });
-    //     dispatch({ type: "NOTIFY", payload: { success: res.msg } });
-    //     return router.push(`/order/${res.newOrder._id}`);
-    //   }
-    // );
+        const newOrder = {
+          ...res.newOrder,
+          user: auth.user,
+        };
+        dispatch({ type: "ADD_ORDERS", payload: [...orders, newOrder] });
+        dispatch({ type: "NOTIFY", payload: { success: res.msg } });
+        return router.push(`/order/${res.newOrder._id}`);
+      }
+    );
   };
 
   if (cart.length === 0)
