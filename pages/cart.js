@@ -16,6 +16,8 @@ export default function Cart() {
 
   const router = useRouter();
 
+  const [callback, setCallback] = useState(false);
+
   useEffect(() => {
     const getTotal = () => {
       const res = cart.reduce((prev, item) => {
@@ -54,7 +56,7 @@ export default function Cart() {
 
       updateCart();
     }
-  }, []);
+  }, [callback]);
 
   const handlePayment = async () => {
     if (!address || !mobile) {
@@ -73,7 +75,7 @@ export default function Cart() {
     }
 
     if (newCart.length > cart.length) {
-      // setCallback(!callback)
+      setCallback(!callback);
       return dispatch({
         type: "NOTIFY",
         payload: {

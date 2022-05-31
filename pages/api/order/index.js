@@ -9,6 +9,7 @@ export default async (req, res) => {
   switch (req.method) {
     case "POST":
       await createOrder(req, res);
+      break;
     case "GET":
       await getOrders(req, res);
       break;
@@ -29,7 +30,7 @@ const getOrders = async (req, res) => {
       orders = await Orders.find().populate("user", "-password");
     }
 
-    res.json({orders})
+    res.json({ orders });
   } catch (err) {
     return res.status(500).json({ err: err.message });
   }
@@ -59,7 +60,7 @@ const createOrder = async (req, res) => {
       msg: "Order success! We will contact you to confirm the order.",
       newOrder,
     });
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json({ err: err.message });
   }
 };
