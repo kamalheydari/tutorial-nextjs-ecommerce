@@ -1,9 +1,8 @@
-
 import Head from "next/head";
 import { useContext, useEffect, useState } from "react";
 import { DataContext } from "../../store/GlobalState";
 import { useRouter } from "next/router";
-import OrderDetail from '../../components/OrderDetail'
+import OrderDetail from "../../components/OrderDetail";
 
 export default function DetailOrder() {
   const { state, dispatch } = useContext(DataContext);
@@ -18,6 +17,8 @@ export default function DetailOrder() {
     setOrderDetail(newArr);
   }, [orders]);
 
+  if (!auth.user) return null;
+
   return (
     <div className='my-3'>
       <Head>
@@ -29,7 +30,7 @@ export default function DetailOrder() {
           Go Back
         </button>
       </div>
-<OrderDetail orderDetail={orderDetail}  />
+      <OrderDetail orderDetail={orderDetail} state={state} dispatch={dispatch} />
     </div>
   );
 }

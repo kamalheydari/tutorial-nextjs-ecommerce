@@ -1,5 +1,38 @@
 import Link from "next/link";
-const OrderDetail = ({ orderDetail }) => {
+import { updateItem } from "../store/Actions";
+import { patchData } from "../utils/fetchData";
+const OrderDetail = ({ orderDetail, state, dispatch }) => {
+  const { auth, orders } = state;
+
+  const handleDelivered = (order) => {
+    dispatch({ type: "NOTIFY", payload: { loading: true } });
+    patchData(`order/delivered/${order._id}`, null, auth.token).then((res) => {
+      if (res.err)
+        return dispatch({ type: "NOTIFY", payload: { error: res.err } });
+
+      const { paid, dateOfPayment, method, delivered } = res.result;
+
+      dispatch(
+        updateItem(
+          orders,
+          order._id,
+          {
+            ...order,
+            paid,
+            dateOfPayment,
+            method,
+            delivered,
+          },
+          "ADD_ORDERS"
+        )
+      );
+
+      return dispatch({ type: "NOTIFY", payload: { success: res.msg } });
+    });
+  };
+
+  if (!auth.user) return null;
+
   return (
     <>
       {orderDetail.map((order) => (
@@ -28,6 +61,14 @@ const OrderDetail = ({ orderDetail }) => {
                 {order.delivered
                   ? `Deliverd on ${order.updatedAt}`
                   : "Not Delivered"}
+                {auth.user.role === "admin" && !order.delivered && (
+                  <button
+                    className='btn btn-dark text-uppercase'
+                    onClick={() => handleDelivered(order)}
+                  >
+                    mark as deliverd
+                  </button>
+                )}
               </div>
 
               <h3>Payment</h3>
@@ -87,9 +128,11 @@ const OrderDetail = ({ orderDetail }) => {
               </div>
             </div>
           </div>
-          <div className='p-4'>
-            <h2 className='mb-4 text-uppercase'>Total : ${order.total}</h2>
-          </div>
+          {!order.paid && auth.user.role !== "admin" && (
+            <div className='p-4'>
+              <h2 className='mb-4 text-uppercase'>Total : ${order.total}</h2>
+            </div>
+          )}
         </div>
       ))}
     </>
