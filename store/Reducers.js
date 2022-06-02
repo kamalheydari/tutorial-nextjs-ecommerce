@@ -38,6 +38,12 @@ const reducers = (state, action) => {
         users: action.payload,
       };
 
+    case ACTIONS.ADD_CATEGORIES:
+      return {
+        ...state,
+        categories: action.payload,
+      };
+
     default:
       return state;
   }
