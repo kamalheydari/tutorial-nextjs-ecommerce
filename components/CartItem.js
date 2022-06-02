@@ -63,12 +63,14 @@ const CartItem = ({ item, dispatch, cart }) => {
           onClick={() =>
             dispatch({
               type: "ADD_MODAL",
-              payload: {
-                data: cart,
-                id: item._id,
-                title: item.title,
-                type: "ADD_CART", //? can clear
-              },
+              payload: [
+                {
+                  data: cart,
+                  id: item._id,
+                  title: item.title,
+                  type: "ADD_CART", //? can clear
+                },
+              ],
             })
           }
         ></i>
