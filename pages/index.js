@@ -5,6 +5,7 @@ import { getData } from "../utils/fetchData";
 import ProductItem from "../components/product/ProductItem";
 import { DataContext } from "../store/GlobalState";
 import filterSearch from "../utils/filterSearch";
+import Filter from '../components/Filter'
 
 export default function Home(props) {
   const [products, setProducts] = useState(props.products);
@@ -63,6 +64,8 @@ export default function Home(props) {
       <Head>
         <title>Home Page</title>
       </Head>
+
+      <Filter state={state} />
 
       {auth.user && auth.user.role === "admin" && (
         <div
